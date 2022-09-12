@@ -1,0 +1,113 @@
+@use "./_colors.scss" as c;
+
+@use "functions.scss" as f;
+
+$indices: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19;
+
+@mixin article-color($color, $border-color, $font-size) {
+  text-align: center;
+  color: $color;
+  border: f.rem(1) solid $border-color;
+  font-size: $font-size;
+}
+
+:root {
+  font-size: 100%;
+}
+
+* {
+  padding: 0.5rem;
+  margin: 0;
+  box-sizing: border-box;
+}
+.container {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: f.rem(1.5) solid c.$primary-color;
+  position: relative;
+
+  & .head1 {
+    margin-top: 0.5rem;
+    font-size: 1.5rem;
+    color: c.$tertiary-color;
+    text-decoration: underline;
+    text-decoration-color: c.$secondary-color;
+  }
+  .head2 {
+    padding: 1rem;
+    border: f.rem(1) solid c.$primary-color;
+
+    &_head1 {
+      @extend .head1;
+      @extend .head2;
+      text-decoration: none;
+    }
+  }
+  & section {
+    display: flex;
+    justify-content: center;
+    .article-blue {
+      @include article-color(c.$secondary-color, c.$tertiary-color, 1rem);
+    }
+    .article-red {
+      @include article-color(c.$primary-color, c.$tertiary-color, 1rem);
+    }
+    .article-green {
+      @include article-color(c.$tertiary-color, c.$secondary-color, 1.5rem);
+    }
+  }
+  .section-2 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    & .fs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 1rem;
+
+      div:nth-child(10) {
+        background-color: blue !important;
+        color: red !important;
+      }
+
+      & .fs-1rem,
+      .fs-2rem,
+      .fs-3rem {
+        width: f.rem(45);
+        height: f.rem(45);
+        border: 1px solid c.$primary-color;
+      }
+      .fs-1rem {
+        font-size: 1rem;
+        padding: 0;
+      }
+      .fs-2rem {
+        font-size: 2rem;
+        padding: 0;
+      }
+      .fs-3rem {
+        font-size: 3rem;
+        padding: 0;
+      }
+      @each $index in $indices {
+        div:nth-child(#{$index}) {
+          @if $index <= 6 {
+            background-color: lightgray;
+          } @else if $index <= 15 {
+            background-color: gray;
+            color: darkgrey;
+          } @else {
+            background-color: rgb(78, 77, 77);
+            color: lightgrey;
+          }
+        }
+      }
+    }
+  }
+}
